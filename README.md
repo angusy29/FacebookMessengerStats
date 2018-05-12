@@ -5,6 +5,9 @@ This repo consists of 3 runnable scripts:
 * pairs.py
 * received.py
 
+These scripts only work with JSON format.
+Your Facebook data can be downloaded in Settings -> Your Facebook Information -> Download your information.
+
 ## Examples
 
 * -u parameter is for your name
