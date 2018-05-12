@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plot_bar_graph(all_users, number_of_users):
-	x_axis_obj = []
-	y_axis_val = []
+def plot_bar_graph(all_users, number_of_users, title, xlabel):
+	x = []
+	y = []
 
 	s = [(k, all_users[k]) for k in sorted(all_users, key=all_users.get, reverse=True)]
 	
@@ -11,14 +11,22 @@ def plot_bar_graph(all_users, number_of_users):
 	for k, v in s:
 		if i >= number_of_users:
 			break
-		x_axis_obj.append(k)
-		y_axis_val.append(v)
+		x.append(k)
+		y.append(v)
 		i += 1
 
-	plt.barh(np.arange(len(x_axis_obj)), y_axis_val, align='center', alpha=0.5)
-	plt.yticks(np.arange(len(x_axis_obj)), x_axis_obj)
-	plt.xlabel('Number of messages')
-	plt.title('Number of messages received from friends')
-	plt.tight_layout()
+	print(x)
+	print(y)
+	fig, ax = plt.subplots(figsize=(13, 6))
+	for i, v in enumerate(y):
+		ax.text(v + 1.5, i, str(v), color='blue')
+
+	ax.barh(np.arange(len(x)), y, align='center', color="blue")
+	ax.set_yticks(np.arange(len(y)))
+	ax.set_yticklabels(x, minor=False)
+	plt.title(title)
+	plt.xlabel(xlabel)
 	plt.gca().invert_yaxis()
-	plt.show()	
+	plt.show()
+
+

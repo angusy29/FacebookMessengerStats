@@ -43,4 +43,4 @@ if __name__ == "__main__":
 
 	sorted_users = sorted(all_users.items(), key=operator.itemgetter(1))	
 	print(sorted_users)
-	plot_bar_graph(all_users, params.topn)
+	plot_bar_graph(all_users, params.topn, 'Number of messages received from friends', 'Number of messages')

@@ -41,4 +41,5 @@ if __name__ == "__main__":
 
 	users = { params.user: 0, params.friend: 0 }
 	walk_folders(users, params.user, params.friend, params.directory)
-	plot_bar_graph(users, 2)
+	print(users)
+	plot_bar_graph(users, 2, 'Number of messaged I sent, and my friend send', 'Number of messages')
