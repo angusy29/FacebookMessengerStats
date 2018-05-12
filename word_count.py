@@ -2,7 +2,6 @@
 
 import argparse
 import ast
-import io
 import json
 from nltk.corpus import stopwords
 import operator
@@ -10,6 +9,7 @@ from plot import show_image
 import os
 import re
 from string import punctuation
+import sys
 from wordcloud import WordCloud
 
 stop_words = set(stopwords.words('english'))
@@ -19,15 +19,18 @@ def process_content(all_words, user, elem):
 		if elem['sender_name'] == user:
 			if 'content' in elem:
 				for word in elem['content'].split():
-					clean_word = word.lower().strip(punctuation)
-					if clean_word not in stop_words:
-						all_words[clean_word] = all_words.get(clean_word, 0) + 1
+					try:
+						word = word.encode('latin-1').decode('utf-8')
+						clean_word = word.lower().strip(punctuation)
+						if clean_word not in stop_words:
+							all_words[clean_word] = all_words.get(clean_word, 0) + 1
+					except ValueError as e:
+						print(word, e, file=sys.stderr)
 
 def parse_file(all_words, user, file):
-	with io.open(file, 'r', encoding='utf8') as f:
+	with open(file, 'r') as f:
 		for elem in json.loads(f.read())['messages']:
 			process_content(all_words, user, elem)
-
 
 def walk_folders(all_words, user, dir):
 	for item in os.walk(dir):
