@@ -11,10 +11,7 @@ def create_new_user(all_users, user, sender_name):
 	if sender_name == user or sender_name == 'Facebook User':
 		return
 
-	if sender_name in all_users:
-		all_users[sender_name] += 1
-	else:
-		all_users[sender_name] = 1 
+	all_users[sender_name] = all_users.get(sender_name, 0) + 1
 
 def parse_file(all_users, user, file):
 	with open(file) as f:
@@ -26,13 +23,14 @@ def parse_file(all_users, user, file):
 
 def walk_folders(all_users, user, dir):
 	for item in os.walk(dir):
-		if 'message.json' in files:
-			# item[0] is root, item[1] is dirs, item[2] are files
+		# item[0] is root, item[1] is dirs, item[2] are files
+		if 'message.json' in item[2]:
 			parse_file(all_users, user, os.path.join(item[0], 'message.json'))
 
 def get_args():
-	parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser(description='Plot number of messages received from top n friends')
 	parser.add_argument('-u', '--user', type=str, required=True, help='Your name on Facebook, this is used to filter out your messages')
+	parser.add_argument('-t', '--topn', type=int, required=True, help='Top n users to display on graph')
 	parser.add_argument('-d', '--directory', type=str, help='Top level directory <./messages/folders/message.json>')
 	return parser.parse_args()
 	
@@ -45,4 +43,4 @@ if __name__ == "__main__":
 
 	sorted_users = sorted(all_users.items(), key=operator.itemgetter(1))	
 	print(sorted_users)
-	plot_bar_graph(all_users, 10)
+	plot_bar_graph(all_users, params.topn)
