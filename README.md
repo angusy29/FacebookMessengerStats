@@ -1,5 +1,10 @@
 # Facebook Messenger Statistics
 
+This repo consists of 3 runnable scripts:
+* word_count.py
+* pairs.py
+* received.py
+
 ## Examples
 
 * -u parameter is for your name
